@@ -131,13 +131,17 @@
   </div>
 
   <script>
+    const CONFIG = {
+      apiUrl: 'http://localhost:9999/api/agent/chat',
+    };
+    const params = new URLSearchParams(location.search);
+    if (params.get('api')) CONFIG.apiUrl = params.get('api');
+
     const chatEl = document.getElementById('chat');
     const inputEl = document.getElementById('input');
     const sendBtn = document.getElementById('sendBtn');
     const errorEl = document.getElementById('errorMsg');
     const placeholder = document.getElementById('placeholder');
-
-    const API_URL = 'http://localhost:9999/api/agent/chat';
 
     function renderContent(text) {
       const container = document.createElement('div');
@@ -270,7 +274,7 @@
       setLoading(true);
 
       try {
-        const res = await fetch(API_URL, {
+        const res = await fetch(CONFIG.apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message })
